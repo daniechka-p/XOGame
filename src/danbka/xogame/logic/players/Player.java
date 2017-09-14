@@ -4,7 +4,7 @@ import danbka.xogame.logic.Mark;
 
 public abstract class Player{
     private Mark mark;
-    private Type type;
+    private PlayerType type;
 
     protected Player(Mark mark) {
         setMark(mark);
@@ -16,10 +16,10 @@ public abstract class Player{
     protected void setMark(Mark mark) {
         this.mark = mark;
     }
-    public Type getType() {
+    public PlayerType getType() {
         return type;
     }
-    protected void setType(Type type) {
+    protected void setType(PlayerType type) {
         this.type = type;
     }
 
@@ -29,7 +29,5 @@ public abstract class Player{
     }
 
     public abstract int[] doMove();
-
-    public enum Type {AI, PERSON}
 
 }

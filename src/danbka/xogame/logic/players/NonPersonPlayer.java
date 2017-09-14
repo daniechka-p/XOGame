@@ -6,7 +6,7 @@ public class NonPersonPlayer extends Player{
 
     public NonPersonPlayer(Mark mark) {
         super(mark);
-        setType(Type.AI);
+        setType(PlayerType.AI);
     }
 
     @Override

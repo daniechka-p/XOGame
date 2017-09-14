@@ -1,5 +1,7 @@
 package danbka.xogame.gui;
 
+import danbka.xogame.logic.players.PlayerType;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -32,7 +34,7 @@ public class MainMenuPanel extends JPanel {
     private void startPvpGame() {
         MainWindow.getInstance().hideMainMenuPanel();
         repaint();
-        MainWindow.getInstance().newGame();
+        MainWindow.getInstance().newGame(PlayerType.PERSON, PlayerType.PERSON);
     }
 
     private void startPvnGame() {

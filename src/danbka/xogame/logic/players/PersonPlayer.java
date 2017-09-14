@@ -6,7 +6,7 @@ public class PersonPlayer extends Player{
 
     public PersonPlayer(Mark mark) {
         super(mark);
-        setType(Type.PERSON);
+        setType(PlayerType.PERSON);
     }
 
     @Override

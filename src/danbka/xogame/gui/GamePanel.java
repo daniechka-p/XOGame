@@ -1,13 +1,13 @@
 package danbka.xogame.gui;
 
 import danbka.xogame.logic.Mark;
-import danbka.xogame.logic.XOGame;
+import danbka.xogame.logic.Game;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel {
-    XOGame xoGame;
+    Game xoGame;
     Mark[][] field;
     BasicStroke pen;
     private int[] cellBorders;
@@ -17,7 +17,7 @@ public class GamePanel extends JPanel {
     private int[] endXPoss;
     private int[] winLinePoss;
 
-    public GamePanel(XOGame xoGame) {
+    public GamePanel(Game xoGame) {
         setPreferredSize(new Dimension(Gui.FIELD_SIZE, Gui.FIELD_SIZE));
         this.xoGame = xoGame;
         this.field = xoGame.field;
@@ -63,13 +63,12 @@ public class GamePanel extends JPanel {
         g2.setStroke(pen);
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                switch (field[i][j]) {
-                    case X:
-                        drawX(g2, i, j);
-                        break;
-                    case O:
-                        drawO(g2, i, j);
-                        break;
+                if (field[i][j] == null) {
+                    //do nothing
+                } else if (field[i][j] == Mark.X) {
+                    drawX(g2, i, j);
+                } else {
+                    drawO(g2, i, j);
                 }
             }
         }

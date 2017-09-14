@@ -1,7 +1,8 @@
 package danbka.xogame.gui;
 
 import danbka.xogame.logic.Mark;
-import danbka.xogame.logic.XOGame;
+import danbka.xogame.logic.Game;
+import danbka.xogame.logic.players.PlayerType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +16,7 @@ public class MainWindow extends JFrame {
     private BattleXOMouseListener mouseListener;
     private JTextField infoLine;
     private SettingsWindow settingsWindow;
-    public XOGame xogame;
+    public Game xogame;
     //singleton instance
     public static MainWindow mainWindow = new MainWindow();
 
@@ -55,7 +56,7 @@ public class MainWindow extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         JMenu gameMenu = new JMenu("Game");
         addMenuItem(gameMenu, "Main menu", event -> showMainMenuPanel());
-        addMenuItem(gameMenu, "Restart", event -> newGame());
+        addMenuItem(gameMenu, "Restart", event -> restart());
         addMenuItem(gameMenu, "Settings", event -> openSettings());
         addMenuItem(gameMenu, "Quit", event -> quitGame());
         menuBar.add(gameMenu);
@@ -100,11 +101,11 @@ public class MainWindow extends JFrame {
         repaint();
     }
 
-    public void newGame() {
+    public void newGame(PlayerType player0Type, PlayerType player1Type) {
         if (gamePanel != null) {
             mainPanel.remove(gamePanel);
         }
-        xogame = new XOGame();
+        xogame = new Game(player0Type, player1Type);
         gamePanel = new GamePanel(xogame);
         mouseListener = new BattleXOMouseListener();
         gamePanel.addMouseListener(mouseListener);
@@ -112,6 +113,10 @@ public class MainWindow extends JFrame {
         actualizeInfo();
         repaint();
         pack();
+    }
+
+    public void restart() {
+        //TODO restart
     }
 
     private boolean isGamePlaying() {
@@ -128,7 +133,7 @@ public class MainWindow extends JFrame {
         public void mouseClicked(MouseEvent e) {
             int line = gamePanel.searchPos(e.getY());
             int column = gamePanel.searchPos(e.getX());
-            if (xogame.field[line][column] == Mark.N) {
+            if (xogame.field[line][column] == null) {
                 xogame.doMove(line, column);
                 repaint();
                 actualizeInfo();
