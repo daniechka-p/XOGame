@@ -1,3 +1,6 @@
 package danbka.xogame.logic;
 
-public enum Mark {X, O}
+public enum Mark {
+    X,
+    O
+}

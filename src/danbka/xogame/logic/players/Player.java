@@ -1,5 +1,6 @@
 package danbka.xogame.logic.players;
 
+import danbka.xogame.logic.Game;
 import danbka.xogame.logic.Mark;
 
 public abstract class Player{
@@ -28,6 +29,6 @@ public abstract class Player{
         return "Player " + mark;
     }
 
-    public abstract int[] doMove();
+    public abstract int[] move(Game game);
 
 }

@@ -1,7 +1,7 @@
 package danbka.xogame.gui;
 
-import danbka.xogame.logic.Mark;
 import danbka.xogame.logic.Game;
+import danbka.xogame.logic.GameType;
 import danbka.xogame.logic.players.PlayerType;
 
 import javax.swing.*;
@@ -27,11 +27,6 @@ public class MainWindow extends JFrame {
 
     private MainWindow() {
         super("XO-Game!");
-//        try {
-//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         setSize(550, 550);
         setBackground(Gui.BACK_COLOR);
         showMainPanel();
@@ -101,11 +96,11 @@ public class MainWindow extends JFrame {
         repaint();
     }
 
-    public void newGame(PlayerType player0Type, PlayerType player1Type) {
+    public void newGame(GameType gameType) {
         if (gamePanel != null) {
             mainPanel.remove(gamePanel);
         }
-        xogame = new Game(player0Type, player1Type);
+        xogame = new Game(gameType);
         gamePanel = new GamePanel(xogame);
         mouseListener = new BattleXOMouseListener();
         gamePanel.addMouseListener(mouseListener);
@@ -116,7 +111,8 @@ public class MainWindow extends JFrame {
     }
 
     public void restart() {
-        //TODO restart
+        GameType gameType = xogame.getType();
+        newGame(gameType);
     }
 
     private boolean isGamePlaying() {
@@ -124,19 +120,23 @@ public class MainWindow extends JFrame {
     }
 
     private void stopGame() {
-        //TODO move methods to GamePanel
         mainPanel.remove(gamePanel);
     }
 
     public class BattleXOMouseListener implements MouseListener {
         @Override
         public void mouseClicked(MouseEvent e) {
-            int line = gamePanel.searchPos(e.getY());
-            int column = gamePanel.searchPos(e.getX());
-            if (xogame.field[line][column] == null) {
-                xogame.doMove(line, column);
-                repaint();
-                actualizeInfo();
+            if (!xogame.isGameEnd()) {
+                int[] coord = new int[2];
+                coord[0] = gamePanel.searchPos(e.getY());
+                coord[1] = gamePanel.searchPos(e.getX());
+                if (xogame.field[coord[0]][coord[1]] == null) {
+                    xogame.acceptMove(coord);
+                    repaint();
+                    actualizeInfo();
+                }
+            } else {
+                restart();
             }
         }
 
@@ -153,13 +153,11 @@ public class MainWindow extends JFrame {
                 break;
             case DRAW:
                 infoLine.setText("It\'s a draw.");
-                JOptionPane.showMessageDialog(mainPanel, "Game over! Draw!");
-                gamePanel.removeMouseListener(mouseListener);
+                JOptionPane.showMessageDialog(mainPanel, "Game over! Draw! Click to restart.");
                 break;
             case WIN:
-                infoLine.setText(xogame.getWinner() + " is winner!");
+                infoLine.setText(xogame.getWinner() + " is winner! Click to restart.");
                 JOptionPane.showMessageDialog(mainPanel, xogame.getWinner() + " is winner!");
-                gamePanel.removeMouseListener(mouseListener);
                 break;
         }
     }

@@ -1,5 +1,6 @@
 package danbka.xogame.logic.players;
 
+import danbka.xogame.logic.Game;
 import danbka.xogame.logic.Mark;
 
 public class PersonPlayer extends Player{
@@ -10,11 +11,7 @@ public class PersonPlayer extends Player{
     }
 
     @Override
-    public int[] doMove() {
+    public int[] move(Game game) {
         return null;
-    }
-
-    private int[] getPosFromGui(int x, int y) {
-        return new int[] {x, y};
     }
 }

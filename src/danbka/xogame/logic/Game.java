@@ -5,25 +5,48 @@ import danbka.xogame.logic.players.*;
 import java.util.Random;
 
 public class Game {
+    private GameType type;
     private Player[] players = new Player[2];
     private Player activePlayer;
     private int numberOfMoves;
-    private State state = State.PLAYING;
+    private State state;
     private Player winner;
     private int[] winnerPos;
     public Mark[][] field = new Mark[3][3];
 
-    public Game(PlayerType player0Type, PlayerType player1Type) {
-        players[0] = getPlayerWithType(player0Type);
-        players[1] = getPlayerWithType(player1Type);
+    public enum State {PLAYING, DRAW, WIN}
+
+    public Game(GameType gameType) {
+        this.type = gameType;
+        setPlayers();
         activePlayer = getRandomPlayer();
+        state = State.PLAYING;
+        checkAiMove();
     }
-    private Player getPlayerWithType(PlayerType type) {
+
+    private void setPlayers() {
+        switch (type) {
+            case PVP:
+                players[0] = newPlayerWithType(PlayerType.PERSON);
+                players[1] = newPlayerWithType(PlayerType.PERSON);
+                break;
+            case PVN:
+                players[0] = newPlayerWithType(PlayerType.PERSON);
+                players[1] = newPlayerWithType(PlayerType.AI);
+                break;
+            case NVN:
+                players[0] = newPlayerWithType(PlayerType.AI);
+                players[1] = newPlayerWithType(PlayerType.AI);
+                break;
+        }
+    }
+
+    private Player newPlayerWithType(PlayerType type) {
         switch (type) {
             case PERSON:
                 return new PersonPlayer(setRandomMark());
             case AI:
-                return new NonPersonPlayer(setRandomMark());
+                return new AiPlayer(setRandomMark());
         }
         return null;
     }
@@ -47,12 +70,20 @@ public class Game {
         return players[random.nextInt(2)];
     }
 
-    public void doMove(int line, int column) {
+    public void acceptMove(int[] coord) {
         if (winner == null) {
-            drawMark(line, column);
+            drawMark(coord[0], coord[1]);
             numberOfMoves++;
             checkState();
             nextPlayer();
+            checkAiMove();
+        }
+    }
+
+    public void checkAiMove() {
+        if (activePlayer.getType() == PlayerType.AI) {
+            activePlayer.move(this);
+            acceptMove(activePlayer.move(this));
         }
     }
 
@@ -129,5 +160,11 @@ public class Game {
         return winnerPos;
     }
 
-    public enum State {PLAYING, DRAW, WIN}
+    public GameType getType() {
+        return type;
+    }
+
+    public boolean isGameEnd() {
+        return winner != null;
+    }
 }

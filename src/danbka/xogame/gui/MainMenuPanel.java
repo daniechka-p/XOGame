@@ -1,5 +1,6 @@
 package danbka.xogame.gui;
 
+import danbka.xogame.logic.GameType;
 import danbka.xogame.logic.players.PlayerType;
 
 import javax.swing.*;
@@ -34,13 +35,19 @@ public class MainMenuPanel extends JPanel {
     private void startPvpGame() {
         MainWindow.getInstance().hideMainMenuPanel();
         repaint();
-        MainWindow.getInstance().newGame(PlayerType.PERSON, PlayerType.PERSON);
+        MainWindow.getInstance().newGame(GameType.PVP);
     }
 
     private void startPvnGame() {
+        MainWindow.getInstance().hideMainMenuPanel();
+        repaint();
+        MainWindow.getInstance().newGame(GameType.PVN);
     }
 
     private void startNvnGame() {
+        MainWindow.getInstance().hideMainMenuPanel();
+        repaint();
+        MainWindow.getInstance().newGame(GameType.NVN);
     }
 
     private void addButton(String title, ActionListener listener) {
