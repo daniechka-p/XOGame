@@ -14,7 +14,7 @@ public class AiPlayer extends Player{
 
     @Override
     public int[] move(Game game) {
-        return dumbTestMove(game);
+        return intelligentMove(game);
     }
 
     private int[] dumbTestMove(Game game) {
@@ -26,6 +26,11 @@ public class AiPlayer extends Player{
                 return new int[]{x, y};
             }
         }
+        return null;
+    }
+
+    private int[] intelligentMove(Game game) {
+
         return null;
     }
 }
