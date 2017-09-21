@@ -31,11 +31,9 @@ public class AiPlayer extends Player{
     }
 
     private int[] intelligentMove(Game game) {
-        //trying to mark center cell
-        if (game.getField()[1][1] == null) {
+        if (game.getField()[1][1] == null) {//trying to mark center cell
             return new int[]{1, 1};
         }
-        //creating graph of available moves
         searchAvailableMoves(game)
         return null;
     }
