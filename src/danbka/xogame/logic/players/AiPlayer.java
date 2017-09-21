@@ -3,6 +3,7 @@ package danbka.xogame.logic.players;
 import danbka.xogame.logic.Game;
 import danbka.xogame.logic.Mark;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class AiPlayer extends Player{
@@ -14,7 +15,7 @@ public class AiPlayer extends Player{
 
     @Override
     public int[] move(Game game) {
-        return intelligentMove(game);
+        return dumbTestMove(game);
     }
 
     private int[] dumbTestMove(Game game) {
@@ -30,7 +31,24 @@ public class AiPlayer extends Player{
     }
 
     private int[] intelligentMove(Game game) {
-
+        //trying to mark center cell
+        if (game.getField()[1][1] == null) {
+            return new int[]{1, 1};
+        }
+        //creating graph of available moves
+        searchAvailableMoves(game)
         return null;
+    }
+
+    private int[][] searchAvailableMoves(Game game) {
+        ArrayList<int[]> freeCells = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (game.getField()[i][j] == null) {
+                    freeCells.add(new int[]{i, j});
+                }
+            }
+        }
+        return (int[][]) freeCells.toArray();
     }
 }

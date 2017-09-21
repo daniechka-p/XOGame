@@ -138,33 +138,67 @@ public class Game {
         return ((field[0][column] != null) && (field[0][column] == field[1][column] && field[1][column] == field[2][column]));
     }
 
-    public State getState() {
-        return state;
+    public GameType getType() {
+        return type;
     }
-    public void setState(State state) {
-        this.state = state;
+
+    public void setType(GameType type) {
+        this.type = type;
+    }
+
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Player[] players) {
+        this.players = players;
     }
 
     public Player getActivePlayer() {
         return activePlayer;
     }
 
-    public void setWinner(Player winner) {
-        this.winner = winner;
+    public void setActivePlayer(Player activePlayer) {
+        this.activePlayer = activePlayer;
     }
+
+    public int getNumberOfMoves() {
+        return numberOfMoves;
+    }
+
+    public void setNumberOfMoves(int numberOfMoves) {
+        this.numberOfMoves = numberOfMoves;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
     public Player getWinner() {
         return winner;
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
     }
 
     public int[] getWinnerPos() {
         return winnerPos;
     }
 
-    public GameType getType() {
-        return type;
+    public void setWinnerPos(int[] winnerPos) {
+        this.winnerPos = winnerPos;
     }
 
-    public boolean isGameEnd() {
-        return winner != null;
+    public Mark[][] getField() {
+        return field;
+    }
+
+    public void setField(Mark[][] field) {
+        this.field = field;
     }
 }
